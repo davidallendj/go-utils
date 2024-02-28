@@ -30,7 +30,6 @@ func MakeHTTPRequest(url string, httpMethod HttpMethod, body HttpBody, headers H
 	if err != nil {
 		return nil, nil, fmt.Errorf("could not create new HTTP request: %v", err)
 	}
-	req.Header.Add("User-Agent", "magellan")
 	for k, v := range headers {
 		req.Header.Add(k, v)
 	}
