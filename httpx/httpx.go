@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-type Header map[string]string
+type Headers map[string]string
 type Body []byte
 type Method = string
 
