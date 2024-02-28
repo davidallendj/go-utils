@@ -8,23 +8,23 @@ import (
 	"net/http"
 )
 
-type HttpHeaders map[string]string
-type HttpBody []byte
-type HttpMethod = string
+type Header map[string]string
+type Body []byte
+type Method = string
 
 const (
-	HTTP_METHOD_GET     HttpMethod = "GET"
-	HTTP_METHOD_POST    HttpMethod = "POST"
-	HTTP_METHOD_PUT     HttpMethod = "PUT"
-	HTTP_METHOD_PATCH   HttpMethod = "PATCH"
-	HTTP_METHOD_DELETE  HttpMethod = "DELETE"
-	HTTP_METHOD_HEAD    HttpMethod = "HEAD"
-	HTTP_METHOD_CONNECT HttpMethod = "CONNECT"
-	HTTP_METHOD_OPTIONS HttpMethod = "OPTIONS"
-	HTTP_METHOD_TRACE   HttpMethod = "TRACE"
+	METHOD_GET     Method = "GET"
+	METHOD_POST    Method = "POST"
+	METHOD_PUT     Method = "PUT"
+	METHOD_PATCH   Method = "PATCH"
+	METHOD_DELETE  Method = "DELETE"
+	METHOD_HEAD    Method = "HEAD"
+	METHOD_CONNECT Method = "CONNECT"
+	METHOD_OPTIONS Method = "OPTIONS"
+	METHOD_TRACE   Method = "TRACE"
 )
 
-func MakeHTTPRequest(url string, httpMethod HttpMethod, body HttpBody, headers HttpHeaders) (*http.Response, []byte, error) {
+func MakeHTTPRequest(url string, httpMethod Method, body Body, headers Header) (*http.Response, []byte, error) {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	req, err := http.NewRequest(httpMethod, url, bytes.NewBuffer(body))
 	if err != nil {
