@@ -12,7 +12,7 @@ type Headers map[string]string
 type Body []byte
 type Method = string
 
-func MakeHTTPRequest(url string, httpMethod Method, body Body, headers Headers) (*http.Response, []byte, error) {
+func MakeHttpRequest(url string, httpMethod Method, body Body, headers Headers) (*http.Response, []byte, error) {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	req, err := http.NewRequest(httpMethod, url, bytes.NewBuffer(body))
 	if err != nil {
