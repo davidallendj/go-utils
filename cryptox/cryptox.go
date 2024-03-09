@@ -8,7 +8,7 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwk"
 )
 
-func GenerateJwkKeyPair() (*jwk.Key, *jwk.Key, error) {
+func GenerateJwkKeyPair() (jwk.Key, jwk.Key, error) {
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to generate private RSA k-ey: %v", err)
@@ -21,10 +21,10 @@ func GenerateJwkKeyPair() (*jwk.Key, *jwk.Key, error) {
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to create public JWK: %v", err)
 	}
-	return &privateJwk, &publicJwk, nil
+	return privateJwk, publicJwk, nil
 }
 
-func GenerateJwkKeyPairFromPrivateKey(privateKey *rsa.PrivateKey) (*jwk.Key, *jwk.Key, error) {
+func GenerateJwkKeyPairFromPrivateKey(privateKey *rsa.PrivateKey) (jwk.Key, jwk.Key, error) {
 	privateJwk, err := jwk.FromRaw(privateKey)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to create private JWK: %v", err)
@@ -33,5 +33,5 @@ func GenerateJwkKeyPairFromPrivateKey(privateKey *rsa.PrivateKey) (*jwk.Key, *jw
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to create public JWK: %v", err)
 	}
-	return &privateJwk, &publicJwk, nil
+	return privateJwk, publicJwk, nil
 }
