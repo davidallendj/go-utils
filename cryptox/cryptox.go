@@ -10,9 +10,13 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwk"
 )
 
-func GenerateRsaFromString(s string) (*rsa.PrivateKey, error) {
-	block, _ := pem.Decode([]byte(s))
+func GenerateRSAPrivateKey(b []byte) (*rsa.PrivateKey, error) {
+	block, _ := pem.Decode(b)
 	return x509.ParsePKCS1PrivateKey(block.Bytes)
+}
+
+func MarshalRSAPrivateKey(key *rsa.PrivateKey) []byte {
+	return x509.MarshalPKCS1PrivateKey(key)
 }
 
 func GenerateJwkKeyPair() (jwk.Key, jwk.Key, error) {
