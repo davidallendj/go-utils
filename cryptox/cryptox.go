@@ -3,10 +3,17 @@ package cryptox
 import (
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 
 	"github.com/lestrrat-go/jwx/v2/jwk"
 )
+
+func GenerateRsaFromString(s string) (*rsa.PrivateKey, error) {
+	block, _ := pem.Decode([]byte(s))
+	return x509.ParsePKCS1PrivateKey(block.Bytes)
+}
 
 func GenerateJwkKeyPair() (jwk.Key, jwk.Key, error) {
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
