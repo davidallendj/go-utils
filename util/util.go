@@ -2,9 +2,12 @@ package util
 
 import (
 	"encoding/base64"
+	"fmt"
 	"math/rand"
+	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 	"strings"
 
 	"github.com/golang-jwt/jwt"
@@ -79,4 +82,39 @@ func RandomString(n int) string {
 	}
 
 	return string(b)
+}
+
+func ParseEnv(evar string, v interface{}) (ret error) {
+	if val := os.Getenv(evar); val != "" {
+		switch vp := v.(type) {
+		case *int:
+			var temp int64
+			temp, ret = strconv.ParseInt(val, 0, 64)
+			if ret == nil {
+				*vp = int(temp)
+			}
+		case *uint:
+			var temp uint64
+			temp, ret = strconv.ParseUint(val, 0, 64)
+			if ret == nil {
+				*vp = uint(temp)
+			}
+		case *string:
+			*vp = val
+		case *bool:
+			switch strings.ToLower(val) {
+			case "0", "off", "no", "false":
+				*vp = false
+			case "1", "on", "yes", "true":
+				*vp = true
+			default:
+				ret = fmt.Errorf("Unrecognized bool value: '%s'", val)
+			}
+		case *[]string:
+			*vp = strings.Split(val, ",")
+		default:
+			ret = fmt.Errorf("Invalid type for receiving ENV variable value %T", v)
+		}
+	}
+	return
 }
